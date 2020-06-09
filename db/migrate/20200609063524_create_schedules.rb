@@ -3,7 +3,7 @@ class CreateSchedules < ActiveRecord::Migration[6.0]
     create_table :schedules do |t|
       t.string :title
       t.string :content
-      t.integer :num_member
+      t.integer :num_member, default: 0
 
       t.timestamps
     end
