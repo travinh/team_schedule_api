@@ -60,9 +60,10 @@ function mountFormListener(){
         const postObj = getScheduleData(event)
         
         let options
-
+        
         if (postForm.dataset.action === "create")
         {
+            
             options = {
                 method: 'POST', // *GET, POST, PUT, DELETE, etc.
                 headers: {
@@ -90,8 +91,8 @@ function mountFormListener(){
         }
 
         fetch(url,options)
-              .then(resp => resp.json())
-              .then((data) =>{
+            .then(resp => resp.json())
+            .then((data) =>{
                 if (!data.errors){
                     loadSchedules()
                     clearForm()
@@ -99,24 +100,9 @@ function mountFormListener(){
                 else{
                     throw new Error( `${data.errors}`)
                 }
-                              
-              })
-              .catch(alert)
-
-        
-
-
-        //   const htmlSchedule = htmlifySchedule(postObj)
-        //   renderSchedule(htmlSchedule)
-        //   clearForm(event)
-
-
-        // if (postForm.dataset.action === "create"){
-        //     API.post(postObj)
-        // }else if (postForm.dataset.action === "update"){
-        //     const Id = event.target.dataset.id
-        //     API.patch(postObj, Id)
-        // }
+                            
+            })
+            .catch(alert)
 
     })
 }
@@ -194,11 +180,6 @@ async function deleteSchedule(id){
     
     const data = await resp.json()
 
-    if (!data.errors){
-        console.log(data)
-    }
-    else{
-        throw new Error( `${data.errors}`)
-    }
+
     loadSchedules()
 }

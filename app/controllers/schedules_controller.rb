@@ -1,5 +1,5 @@
 class SchedulesController < ApplicationController
-    before_action :find_schedule, only:[:show, :update, :destroy]
+    before_action :find_schedule, only:[:show, :update, :destroy,:create]
 
     def index
         @schedules = Schedule.all
@@ -12,11 +12,12 @@ class SchedulesController < ApplicationController
     
     def create
         @schedule = Schedule.new(schedule_params)
-
+      
         if @schedule.save
             render json: @schedule
         else
-            render json:{errors: @schedule.errors.full_message}
+           
+            render json:{errors: @schedule.errors.full_messages}
         end
     end 
     
@@ -25,7 +26,7 @@ class SchedulesController < ApplicationController
         if @schedule.update(schedule_params)
             render json: @schedule
         else
-            render json:{errors: @schedule.errors.full_message}
+            render json:{errors: @schedule.errors.full_messages}
         end
     end
    
