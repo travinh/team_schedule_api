@@ -15,9 +15,9 @@ ActiveRecord::Schema.define(version: 2020_06_09_063524) do
   create_table "schedules", force: :cascade do |t|
     t.string "title"
     t.string "content"
-    t.integer "num_member"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.integer "num_member", default: 0
   end
 
 end

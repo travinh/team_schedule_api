@@ -22,7 +22,6 @@ function mountFormListener(){
           })
           .then(resp => resp.json())
           .then((data) =>{
-              
               const htmlSchedule = htmlifySchedule(data)
 
               renderSchedule(htmlSchedule)
@@ -45,13 +44,6 @@ function mountFormListener(){
     })
 }
 
-function addSchedulesToDom(schedules){
-    schedules.forEach(function(schedule){
-        renderSchedule(htmlifySchedule(schedule))
-      
-        
-    })
-}
 
 function loadSchedules(){
     fetch("http://localhost:3000/api/v1/schedules")
@@ -61,13 +53,26 @@ function loadSchedules(){
     })
 }
 
+function addSchedulesToDom(schedules){
+    schedules.forEach(function(schedule){
+        renderSchedule(htmlifySchedule(schedule))
+      
+        
+    })
+}
+
 const htmlifySchedule = function(schedule){
     return(`
     <div class="card"  >
         <div class="card-content" id="${this.id}">
           <span class="card-title">${schedule.title}</span>
           <p>${schedule.content}</p>
+          <p>${schedule.num_member}</p>
+          <button>+</button>
+          <button>Edit</button>
+          <button>Delete</button>
         </div>
+        
     </div>
     `
     )
