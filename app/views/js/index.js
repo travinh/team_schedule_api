@@ -4,6 +4,9 @@ document.addEventListener("DOMContentLoaded",function(){
     eventDelegation()
 })
 
+const formTitle = document.querySelector("#title")
+const formContent = document.querySelector("#content")
+
 function eventDelegation(){
     const scheduleList = document.querySelector(".schedule-lists")
     scheduleList.addEventListener("click",function(e){
@@ -16,13 +19,19 @@ function eventDelegation(){
         
         }
         else if (e.target.className === "edit"){
+            
             //grab the data from this card
-
+            const[title,content] = e.target.parentElement.querySelectorAll("span")
+           
             //populate the form with values
+            formTitle.value = title.innerText
+            formContent.value = content.innerText
 
             //make change 
             
             // change type of fetch sent
+
+            //clean up
         
         }
         else if (e.target.className === "delete"){
@@ -53,7 +62,7 @@ function mountFormListener(){
               const htmlSchedule = htmlifySchedule(data)
 
               renderSchedule(htmlSchedule)
-              clearForm(event)
+              clearForm()
           })
 
 
@@ -94,7 +103,7 @@ const htmlifySchedule = function(schedule){
     <div class="card"  >
         <div class="card-content" id="${this.id}">
           <span class="card-title">${schedule.title}</span>
-          <p>${schedule.content}</p>
+          <p><span>${schedule.content}</span></p>
           <p class="num_member">${schedule.num_member}</p>
           <button class="plus">+</button>
           <button class="edit">Edit</button>
@@ -116,12 +125,12 @@ const renderSchedule = (schedule) => {
 
 function getScheduleData(){
     return {
-        title: event.target.querySelector("#title").value,
-        content: event.target.querySelector("#content").value
+        title: formTitle.value,
+        content: formContent.value
     }  
 }
 
-function clearForm (event){
-    event.target.querySelector("#title").value = ""
-    event.target.querySelector("#content").value = ""
+function clearForm (){
+    formTitle.value = ""
+    formContent.value = ""
 }
