@@ -6,6 +6,8 @@ document.addEventListener("DOMContentLoaded",function(){
 
 const formTitle = document.querySelector("#title")
 const formContent = document.querySelector("#content")
+const postForm = document.getElementById("schedule-form")
+const baseUrl = "http://localhost:3000/api/v1/schedules"
 
 function eventDelegation(){
     const scheduleList = document.querySelector(".schedule-lists")
@@ -26,12 +28,16 @@ function eventDelegation(){
             //populate the form with values
             formTitle.value = title.innerText
             formContent.value = content.innerText
-
-            //make change 
+            postForm.dataset.id = e.target.parentElement.id
             
+            //make change 
+            document.querySelector(".btn").value = "Edit Schedule"
+            postForm.dataset.action = "update"
+            
+
             // change type of fetch sent
 
-            //clean up
+            //clean up - havr to change data action back to create
         
         }
         else if (e.target.className === "delete"){
@@ -43,27 +49,51 @@ function eventDelegation(){
 
 function mountFormListener(){
     const postForm = document.getElementById("schedule-form")
+    
     postForm.addEventListener("submit", function(event){
         event.preventDefault()
         
         // grab the text from each field
         const postObj = getScheduleData(event)
+        
+        let options
 
-        fetch("http://localhost:3000/api/v1/schedules", {
-            method: 'POST', // *GET, POST, PUT, DELETE, etc.
-            headers: {
-              'Content-Type': 'application/json'
-              // 'Content-Type': 'application/x-www-form-urlencoded',
-            },
-            body: JSON.stringify(postObj) // body data type must match "Content-Type" header
-          })
-          .then(resp => resp.json())
-          .then((data) =>{
-              const htmlSchedule = htmlifySchedule(data)
+        if (postForm.dataset.action === "create")
+        {
+            options = {
+                method: 'POST', // *GET, POST, PUT, DELETE, etc.
+                headers: {
+                  'Content-Type': 'application/json'
+                  // 'Content-Type': 'application/x-www-form-urlencoded',
+                },
+                body: JSON.stringify(postObj) // body data type must match "Content-Type" header
+            }
+            url = baseUrl 
+            
+        }
+        else if (postForm.dataset.action === "update"){
+            options = {
+                method: 'PATCH', // *GET, POST, PUT, DELETE, etc.
+                headers: {
+                  'Content-Type': 'application/json'
+                  // 'Content-Type': 'application/x-www-form-urlencoded',
+                },
+                body: JSON.stringify(postObj) // body data type must match "Content-Type" header
+            }
 
-              renderSchedule(htmlSchedule)
-              clearForm()
-          })
+            url = `${baseUrl}/${postForm.dataset.id}`
+        }
+
+        fetch(url,options)
+              .then(resp => resp.json())
+              .then((data) =>{
+                loadSchedules()
+                clearForm()
+                
+              })
+        
+
+        
 
 
         //   const htmlSchedule = htmlifySchedule(postObj)
@@ -83,7 +113,7 @@ function mountFormListener(){
 
 
 function loadSchedules(){
-    fetch("http://localhost:3000/api/v1/schedules")
+    fetch(baseUrl)
     .then(resp => resp.json())
     .then(data => {
         addSchedulesToDom(data)
@@ -91,17 +121,17 @@ function loadSchedules(){
 }
 
 function addSchedulesToDom(schedules){
+    document.querySelector(".schedule-lists").innerHTML = ""
     schedules.forEach(function(schedule){
         renderSchedule(htmlifySchedule(schedule))
-      
-        
+       
     })
 }
 
 const htmlifySchedule = function(schedule){
     return(`
     <div class="card"  >
-        <div class="card-content" id="${this.id}">
+        <div class="card-content" id=${schedule.id}>
           <span class="card-title">${schedule.title}</span>
           <p><span>${schedule.content}</span></p>
           <p class="num_member">${schedule.num_member}</p>
@@ -131,6 +161,8 @@ function getScheduleData(){
 }
 
 function clearForm (){
+    delete postForm.dataset.id
+    postForm.dataset.action="create"
     formTitle.value = ""
     formContent.value = ""
 }
