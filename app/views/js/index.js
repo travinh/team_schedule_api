@@ -41,7 +41,10 @@ function eventDelegation(){
         
         }
         else if (e.target.className === "delete"){
-            console.log("delete")
+            const id = e.target.parentElement.id
+            console.log("delete",id)
+            deleteSchedule(id)
+            
         }
     })
 
@@ -63,7 +66,8 @@ function mountFormListener(){
             options = {
                 method: 'POST', // *GET, POST, PUT, DELETE, etc.
                 headers: {
-                  'Content-Type': 'application/json'
+                  'Content-Type': 'application/json',
+                  "Accept": "application/json"
                   // 'Content-Type': 'application/x-www-form-urlencoded',
                 },
                 body: JSON.stringify(postObj) // body data type must match "Content-Type" header
@@ -75,7 +79,8 @@ function mountFormListener(){
             options = {
                 method: 'PATCH', // *GET, POST, PUT, DELETE, etc.
                 headers: {
-                  'Content-Type': 'application/json'
+                  'Content-Type': 'application/json',
+                  "Accept": "application/json"
                   // 'Content-Type': 'application/x-www-form-urlencoded',
                 },
                 body: JSON.stringify(postObj) // body data type must match "Content-Type" header
@@ -87,11 +92,16 @@ function mountFormListener(){
         fetch(url,options)
               .then(resp => resp.json())
               .then((data) =>{
-                loadSchedules()
-                clearForm()
-                
+                if (!data.errors){
+                    loadSchedules()
+                    clearForm()
+                }
+                else{
+                    throw new Error( `${data.errors}`)
+                }
+                              
               })
-        
+              .catch(alert)
 
         
 
@@ -165,4 +175,32 @@ function clearForm (){
     postForm.dataset.action="create"
     formTitle.value = ""
     formContent.value = ""
+
+    
+}
+
+async function deleteSchedule(id){
+
+    const resp = await fetch(`${baseUrl}/${id}`,{
+        
+        method: 'DELETE', // *GET, POST, PUT, DELETE, etc.
+        headers: {
+            'Content-Type': 'application/json',
+            "Accept": "application/json"
+            // 'Content-Type': 'application/x-www-form-urlencoded',
+        },
+       
+    })
+    
+    const data = await resp.json()
+
+    if (!data.errors){
+        console.log(data)
+    }
+    else{
+        throw new Error( `${data.errors}`)
+    }
+
+
+    loadSchedules()
 }
