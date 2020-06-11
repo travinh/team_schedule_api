@@ -6,9 +6,17 @@ class SchedulesController < ApplicationController
     end 
      
     def show
+        render json: @schedule
     end 
     
-    def cretae
+    def create
+        @schedule = Schedule.new(schedule_params)
+
+        if @schedule.save
+            render json: @schedule
+        else
+            render json:{errors: @schedule.errors.full_message}
+        end
     end 
     
     def update
@@ -16,5 +24,11 @@ class SchedulesController < ApplicationController
    
     def destroy
     end 
+
+    private
+
+    def schedule_params
+        params.require(:schedule).permit(:title, :content)
+    end
     
 end
