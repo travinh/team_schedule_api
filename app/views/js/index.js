@@ -71,6 +71,7 @@ const htmlifySchedule = function(schedule){
           <button>+</button>
           <button>Edit</button>
           <button>Delete</button>
+          
         </div>
         
     </div>
