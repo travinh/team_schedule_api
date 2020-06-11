@@ -2,6 +2,7 @@ document.addEventListener("DOMContentLoaded",function(){
     loadSchedules() //load the pages with all schedules and form first
     mountFormListener() // then listen to the next step
     eventDelegation()
+    addMemberFeature()
 })
 
 const formTitle = document.querySelector("#title")
@@ -9,18 +10,63 @@ const formContent = document.querySelector("#content")
 const postForm = document.getElementById("schedule-form")
 const baseUrl = "http://localhost:3000/api/v1/schedules"
 
+function addMemberFeature(){
+    const addButtons = document.querySelectorAll(".plus")
+    for (addButton of addButtons){
+        addButton.addEventListener("click",getMember)
+    }
+}
+
+async function getMember(e){
+    
+    
+    const scheduleId = e.target.parentElement.id
+    let num_member = parseInt(e.target.parentElement.querySelector(".num_member").innerText)
+    num_member++
+
+    const postObj = {
+        num_member
+    }
+
+    options = {
+        method: 'PATCH', // *GET, POST, PUT, DELETE, etc.
+        headers: {
+          'Content-Type': 'application/json',
+          "Accept": "application/json"
+          // 'Content-Type': 'application/x-www-form-urlencoded',
+        },
+        body: JSON.stringify(postObj) // body data type must match "Content-Type" header
+    }
+
+    url = `${baseUrl}/${scheduleId}`
+
+    const resp = await fetch(url,options)
+
+    const data = await resp.json()
+
+    if (!data.errors){
+        loadSchedules()
+   
+    }
+    else{
+        throw new Error( `${data.errors}`)
+    }
+
+}
+
 function eventDelegation(){
     const scheduleList = document.querySelector(".schedule-lists")
     scheduleList.addEventListener("click",function(e){
 
-        if (e.target.className === "plus"){
+        // if (e.target.className === "plus"){
            
-            let num_member = e.target.parentElement.querySelector(".num_member").innerText
-            num_member = parseInt(num_member)
-            num_member = num_member + 1
+        //     let num_member = e.target.parentElement.querySelector(".num_member").innerText
+        //     num_member = parseInt(num_member)
+        //     num_member = num_member + 1
         
-        }
-        else if (e.target.className === "edit"){
+        // }
+        // else 
+        if (e.target.className === "edit"){
             
             //grab the data from this card
             const[title,content] = e.target.parentElement.querySelectorAll("span")
@@ -114,6 +160,7 @@ function loadSchedules(){
     .then(data => {
         addSchedulesToDom(data)
     })
+    .then(()=> addMemberFeature())
 }
 
 function addSchedulesToDom(schedules){
