@@ -1,8 +1,36 @@
 document.addEventListener("DOMContentLoaded",function(){
     loadSchedules() //load the pages with all schedules and form first
     mountFormListener() // then listen to the next step
- 
+    eventDelegation()
 })
+
+function eventDelegation(){
+    const scheduleList = document.querySelector(".schedule-lists")
+    scheduleList.addEventListener("click",function(e){
+
+        if (e.target.className === "plus"){
+           
+            let num_member = e.target.parentElement.querySelector(".num_member").innerText
+            num_member = parseInt(num_member)
+            num_member = num_member + 1
+        
+        }
+        else if (e.target.className === "edit"){
+            //grab the data from this card
+
+            //populate the form with values
+
+            //make change 
+            
+            // change type of fetch sent
+        
+        }
+        else if (e.target.className === "delete"){
+            console.log("delete")
+        }
+    })
+
+}
 
 function mountFormListener(){
     const postForm = document.getElementById("schedule-form")
@@ -67,11 +95,11 @@ const htmlifySchedule = function(schedule){
         <div class="card-content" id="${this.id}">
           <span class="card-title">${schedule.title}</span>
           <p>${schedule.content}</p>
-          <p>${schedule.num_member}</p>
-          <button>+</button>
-          <button>Edit</button>
-          <button>Delete</button>
-          
+          <p class="num_member">${schedule.num_member}</p>
+          <button class="plus">+</button>
+          <button class="edit">Edit</button>
+          <button class="delete">Delete</button>
+
         </div>
         
     </div>
