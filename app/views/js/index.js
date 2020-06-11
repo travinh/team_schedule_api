@@ -194,6 +194,11 @@ async function deleteSchedule(id){
     
     const data = await resp.json()
 
-
+    if (!data.errors){
+        console.log(data)
+    }
+    else{
+        throw new Error( `${data.errors}`)
+    }
     loadSchedules()
 }
