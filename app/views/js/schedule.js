@@ -29,18 +29,27 @@ class Schedule{
     }
 
     renderSchedule(){
-        const scheduleList = document.querySelector(".schedule-lists")
         scheduleList.innerHTML += this.htmlifySchedule()
     
     
     }
 
+    static renderSchedules(){
+        scheduleList.innerHTML = ""
+        Schedule.all.forEach(schedule => schedule.renderSchedule())
+        addMemberFeature()
+    }
+
     static loadSchedules(){
+       
         //send request, then create all schedules from data
         API.get()
-        .then(data => {
-            debugger
+        .then(schedules => {
+            schedules.forEach(schedule => new Schedule(schedule))
+            
+            Schedule.renderSchedules()
         })
+      
     }
 
 

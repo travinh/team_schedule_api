@@ -9,6 +9,10 @@ const formTitle = document.querySelector("#title")
 const formContent = document.querySelector("#content")
 const postForm = document.getElementById("schedule-form")
 const baseUrl = "http://localhost:3000/api/v1/schedules"
+const scheduleForm = document.getElementById("schedule-form")
+const scheduleList = document.querySelector(".schedule-lists")
+
+
 
 function addMemberFeature(){
     const addButtons = document.querySelectorAll(".plus")
@@ -110,16 +114,17 @@ function mountFormListener(){
         if (postForm.dataset.action === "create")
         {
             
-            options = {
-                method: 'POST', // *GET, POST, PUT, DELETE, etc.
-                headers: {
-                  'Content-Type': 'application/json',
-                  "Accept": "application/json"
-                  // 'Content-Type': 'application/x-www-form-urlencoded',
-                },
-                body: JSON.stringify(postObj) // body data type must match "Content-Type" header
-            }
-            url = baseUrl 
+            // options = {
+            //     method: 'POST', // *GET, POST, PUT, DELETE, etc.
+            //     headers: {
+            //       'Content-Type': 'application/json',
+            //       "Accept": "application/json"
+            //       // 'Content-Type': 'application/x-www-form-urlencoded',
+            //     },
+            //     body: JSON.stringify(postObj) // body data type must match "Content-Type" header
+            // }
+            // url = baseUrl 
+            API.post(postObj)
             
         }
         else if (postForm.dataset.action === "update"){
