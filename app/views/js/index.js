@@ -109,7 +109,6 @@ function mountFormListener(){
         // grab the text from each field
         const postObj = getScheduleData(event)
         
-        let options
         
         if (postForm.dataset.action === "create")
         {
@@ -128,32 +127,20 @@ function mountFormListener(){
             
         }
         else if (postForm.dataset.action === "update"){
-            options = {
-                method: 'PATCH', // *GET, POST, PUT, DELETE, etc.
-                headers: {
-                  'Content-Type': 'application/json',
-                  "Accept": "application/json"
-                  // 'Content-Type': 'application/x-www-form-urlencoded',
-                },
-                body: JSON.stringify(postObj) // body data type must match "Content-Type" header
-            }
+            const Id = event.target.dataset.id
+            API.patch(postObj, Id)
+            // options = {
+            //     method: 'PATCH', // *GET, POST, PUT, DELETE, etc.
+            //     headers: {
+            //       'Content-Type': 'application/json',
+            //       "Accept": "application/json"
+            //       // 'Content-Type': 'application/x-www-form-urlencoded',
+            //     },
+            //     body: JSON.stringify(postObj) // body data type must match "Content-Type" header
+            // }
 
-            url = `${baseUrl}/${postForm.dataset.id}`
+            // url = `${baseUrl}/${postForm.dataset.id}`
         }
-
-        fetch(url,options)
-            .then(resp => resp.json())
-            .then((data) =>{
-                if (!data.errors){
-                    loadSchedules()
-                    clearForm()
-                }
-                else{
-                    throw new Error( `${data.errors}`)
-                }
-                            
-            })
-            .catch(alert)
 
     })
 }

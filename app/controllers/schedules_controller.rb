@@ -22,7 +22,6 @@ class SchedulesController < ApplicationController
     end 
     
     def update
-     
         if @schedule.update(schedule_params)
             render json: @schedule
         else

@@ -68,5 +68,36 @@ class API{
         .catch(alert)
     }
 
+    static patch(data, Id){
+        const options ={
+            ...API.options,
+            method: 'PATCH',
+            body: JSON.stringify({schedule:data})
+        }
+        const url = API.baseUrl + `/${Id}`
+        fetch(url,options)
+        .then(resp => resp.json())
+        .then((data) => {
+            if (!data.errors){
+                // create a new schedule
+                // debugger
+                const editSchedules  = Schedule.all.map(schedule =>{
+                    if(schedule.id === data.id){
+                        return new Schedule(data)
+                    }else{
+                        return schedule
+                    }
+                })
+                Schedule.all = editSchedules
+                Schedule.renderSchedules()
+            }else{
+                throw new Error( `${data.errors}` )
+            } 
+            
+        })
+        .catch(alert)
+    }
+
+
     
 }
