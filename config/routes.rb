@@ -1,6 +1,12 @@
 Rails.application.routes.draw do
 
 
+  get 'sessions/new'
+  get 'sessions/create'
+  get 'sessions/login'
+  get 'sessions/welcome'
+  get 'users/new'
+  get 'users/create'
   scope :api do 
     scope :v1 do 
       resources :schedules
