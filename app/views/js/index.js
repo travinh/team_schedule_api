@@ -2,7 +2,7 @@ document.addEventListener("DOMContentLoaded",function(){
     Schedule.loadSchedules() //load the pages with all schedules and form first
     mountFormListener() // then listen to the next step
     eventDelegation()
-    addMemberFeature()
+    
 })
 
 const formTitle = document.querySelector("#title")
@@ -31,31 +31,7 @@ async function getMember(e){
     const postObj = {
         num_member
     }
-
-    options = {
-        method: 'PATCH', // *GET, POST, PUT, DELETE, etc.
-        headers: {
-          'Content-Type': 'application/json',
-          "Accept": "application/json"
-          // 'Content-Type': 'application/x-www-form-urlencoded',
-        },
-        body: JSON.stringify(postObj) // body data type must match "Content-Type" header
-    }
-
-    url = `${baseUrl}/${scheduleId}`
-
-    const resp = await fetch(url,options)
-
-    const data = await resp.json()
-
-    if (!data.errors){
-        loadSchedules()
-   
-    }
-    else{
-        throw new Error( `${data.errors}`)
-    }
-
+    API.patch(postObj,scheduleId)
 }
 
 function eventDelegation(){
