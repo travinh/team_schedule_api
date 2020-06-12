@@ -45,5 +45,28 @@ class API{
         .catch(alert)
     }
 
+    static delete(Id){
+        const options ={
+            ...API.options,
+            method: 'DELETE'
+        }
+        const url = API.baseUrl + `/${Id}`
+
+        fetch(url,options)
+        .then(resp => resp.json())
+        .then((data) => {
+            if (!data.errors){
+                const index = Schedule.all.findIndex((schedule)=> schedule.id === data.id)
+                //splice remove item in schedule
+                Schedule.all.splice(index,1)
+                Schedule.renderSchedules()
+               
+            }else{
+                throw new Error( `${data.errors}` )
+            } 
+        })
+        .catch(alert)
+    }
+
     
 }

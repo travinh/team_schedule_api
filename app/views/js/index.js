@@ -93,7 +93,7 @@ function eventDelegation(){
         else if (e.target.className === "delete"){
             const id = e.target.parentElement.id
             console.log("delete",id)
-            deleteSchedule(id)
+            API.delete(id)
             
         }
     })
@@ -195,21 +195,21 @@ function clearForm (){
     
 }
 
-async function deleteSchedule(id){
+// async function deleteSchedule(id){
 
-    const resp = await fetch(`${baseUrl}/${id}`,{
+//     const resp = await fetch(`${baseUrl}/${id}`,{
         
-        method: 'DELETE', // *GET, POST, PUT, DELETE, etc.
-        headers: {
-            'Content-Type': 'application/json',
-            "Accept": "application/json"
-            // 'Content-Type': 'application/x-www-form-urlencoded',
-        },
+//         method: 'DELETE', // *GET, POST, PUT, DELETE, etc.
+//         headers: {
+//             'Content-Type': 'application/json',
+//             "Accept": "application/json"
+//             // 'Content-Type': 'application/x-www-form-urlencoded',
+//         },
        
-    })
+//     })
     
-    const data = await resp.json()
+//     const data = await resp.json()
 
 
-    loadSchedules()
-}
+//     loadSchedules()
+// }
