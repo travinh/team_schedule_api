@@ -1,5 +1,5 @@
 document.addEventListener("DOMContentLoaded",function(){
-    loadSchedules() //load the pages with all schedules and form first
+    Schedule.loadSchedules() //load the pages with all schedules and form first
     mountFormListener() // then listen to the next step
     eventDelegation()
     addMemberFeature()
@@ -154,47 +154,25 @@ function mountFormListener(){
 }
 
 
-function loadSchedules(){
-    fetch(baseUrl)
-    .then(resp => resp.json())
-    .then(data => {
-        addSchedulesToDom(data)
-    })
-    .then(()=> addMemberFeature())
-}
+// function loadSchedules(){
+//     fetch(baseUrl)
+//     .then(resp => resp.json())
+//     .then(data => {
+//         addSchedulesToDom(data)
+//     })
+//     .then(()=> addMemberFeature())
+// }
 
-function addSchedulesToDom(schedules){
-    document.querySelector(".schedule-lists").innerHTML = ""
-    schedules.forEach(function(schedule){
-        renderSchedule(htmlifySchedule(schedule))
+// function addSchedulesToDom(schedules){
+//     document.querySelector(".schedule-lists").innerHTML = ""
+    
+//     schedules.forEach(function(schedule){
+//         const scheduleObj = new Schedule(schedule)
+//         scheduleObj.renderSchedule()
        
-    })
-}
+//     })
+// }
 
-const htmlifySchedule = function(schedule){
-    return(`
-    <div class="card"  >
-        <div class="card-content" id=${schedule.id}>
-          <span class="card-title">${schedule.title}</span>
-          <p><span>${schedule.content}</span></p>
-          <p class="num_member">${schedule.num_member}</p>
-          <button class="plus">+</button>
-          <button class="edit">Edit</button>
-          <button class="delete">Delete</button>
-
-        </div>
-        
-    </div>
-    `
-    )
-}
-
-const renderSchedule = (schedule) => {
-    const scheduleList = document.querySelector(".schedule-lists")
-    scheduleList.innerHTML += schedule
-
-
-}
 
 function getScheduleData(){
     return {
