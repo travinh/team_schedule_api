@@ -1,5 +1,6 @@
 Rails.application.routes.draw do
-
+  root to: 'application#welcome'
+  # get '/', to: "sessions#welcome"
 
   # get 'sessions/new'
   # get 'sessions/create'
@@ -8,10 +9,10 @@ Rails.application.routes.draw do
   # get 'users/new'
   # get 'users/create'
 
-  resources :users, only: [:new, :create]
-  get 'login', to: 'sessions#new'
-  post 'login', to: 'sessions#create'
-  get 'welcome', to: 'sessions#welcome'
+  # resources :users, only: [:new, :create]
+  # get 'login', to: 'sessions#new'
+  # post 'login', to: 'sessions#create'
+  # get 'welcome', to: 'sessions#welcome'
   
 
 
@@ -21,8 +22,10 @@ Rails.application.routes.draw do
     end 
   end
 
+  resources :user
 
-  get '/', to: "sessions#welcome"
+
+
   # root to: "application#welcome"
 
   

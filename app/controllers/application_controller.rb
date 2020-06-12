@@ -1,10 +1,12 @@
 class ApplicationController < ActionController::API
+    # include ActionView::Layouts
+    # include ActionController::Rendering
     include ActionController::Helpers
     helper_method :current_user
     helper_method :logged_in?
 
     def welcome
-        render "index"
+        render "welcome"
     end
 
     def current_user    

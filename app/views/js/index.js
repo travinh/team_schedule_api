@@ -12,6 +12,8 @@ const baseUrl = "http://localhost:3000/api/v1/schedules"
 const scheduleForm = document.getElementById("schedule-form")
 const scheduleList = document.querySelector(".schedule-lists")
 
+const formName =  document.querySelector("#name")
+
 
 
 function addMemberFeature(){
@@ -69,8 +71,20 @@ function eventDelegation(){
 }
 
 function mountFormListener(){
-    const postForm = document.getElementById("schedule-form")
     
+    const userForm = document.getElementById("user-form")
+
+    userForm.addEventListener("submit",function(event){
+        event.preventDefault()
+        const postObj = getScheduleData(event)
+        debugger
+        
+    })
+
+
+    const postForm = document.getElementById("schedule-form")
+
+  
     postForm.addEventListener("submit", function(event){
         event.preventDefault()
         
@@ -97,6 +111,12 @@ function getScheduleData(){
     return {
         title: formTitle.value,
         content: formContent.value
+    }  
+}
+function getUserData(){
+    return {
+        name: formName.value,
+        
     }  
 }
 
