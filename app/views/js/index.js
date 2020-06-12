@@ -62,14 +62,6 @@ function eventDelegation(){
     const scheduleList = document.querySelector(".schedule-lists")
     scheduleList.addEventListener("click",function(e){
 
-        // if (e.target.className === "plus"){
-           
-        //     let num_member = e.target.parentElement.querySelector(".num_member").innerText
-        //     num_member = parseInt(num_member)
-        //     num_member = num_member + 1
-        
-        // }
-        // else 
         if (e.target.className === "edit"){
             
             //grab the data from this card
@@ -113,57 +105,16 @@ function mountFormListener(){
         if (postForm.dataset.action === "create")
         {
             
-            // options = {
-            //     method: 'POST', // *GET, POST, PUT, DELETE, etc.
-            //     headers: {
-            //       'Content-Type': 'application/json',
-            //       "Accept": "application/json"
-            //       // 'Content-Type': 'application/x-www-form-urlencoded',
-            //     },
-            //     body: JSON.stringify(postObj) // body data type must match "Content-Type" header
-            // }
-            // url = baseUrl 
             API.post(postObj)
             
         }
         else if (postForm.dataset.action === "update"){
             const Id = event.target.dataset.id
             API.patch(postObj, Id)
-            // options = {
-            //     method: 'PATCH', // *GET, POST, PUT, DELETE, etc.
-            //     headers: {
-            //       'Content-Type': 'application/json',
-            //       "Accept": "application/json"
-            //       // 'Content-Type': 'application/x-www-form-urlencoded',
-            //     },
-            //     body: JSON.stringify(postObj) // body data type must match "Content-Type" header
-            // }
-
-            // url = `${baseUrl}/${postForm.dataset.id}`
         }
 
     })
 }
-
-
-// function loadSchedules(){
-//     fetch(baseUrl)
-//     .then(resp => resp.json())
-//     .then(data => {
-//         addSchedulesToDom(data)
-//     })
-//     .then(()=> addMemberFeature())
-// }
-
-// function addSchedulesToDom(schedules){
-//     document.querySelector(".schedule-lists").innerHTML = ""
-    
-//     schedules.forEach(function(schedule){
-//         const scheduleObj = new Schedule(schedule)
-//         scheduleObj.renderSchedule()
-       
-//     })
-// }
 
 
 function getScheduleData(){
@@ -182,21 +133,3 @@ function clearForm (){
     
 }
 
-// async function deleteSchedule(id){
-
-//     const resp = await fetch(`${baseUrl}/${id}`,{
-        
-//         method: 'DELETE', // *GET, POST, PUT, DELETE, etc.
-//         headers: {
-//             'Content-Type': 'application/json',
-//             "Accept": "application/json"
-//             // 'Content-Type': 'application/x-www-form-urlencoded',
-//         },
-       
-//     })
-    
-//     const data = await resp.json()
-
-
-//     loadSchedules()
-// }
