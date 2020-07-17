@@ -12,6 +12,7 @@ class Schedule{
 
     htmlifySchedule(){
         return(`
+        
         <div class="card"  >
             <div class="card-content" id=${this.id}>
               <span class="card-title">${this.title}</span>
@@ -51,6 +52,7 @@ class Schedule{
         })
       
     }
+
 
 
 }

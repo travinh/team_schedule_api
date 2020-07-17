@@ -31,6 +31,7 @@ class API{
         .then(resp => resp.json())
         .then((data) =>{
             if (!data.errors){
+                
                 //add new schedule to schedule List by creating it
                 new Schedule(data)
                 //display schedules

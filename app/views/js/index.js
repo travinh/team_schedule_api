@@ -1,4 +1,5 @@
 document.addEventListener("DOMContentLoaded",function(){
+   
     Schedule.loadSchedules() //load the pages with all schedules and form first
     mountFormListener() // then listen to the next step
     eventDelegation()
@@ -12,8 +13,12 @@ const baseUrl = "http://localhost:3000/api/v1/schedules"
 const scheduleForm = document.getElementById("schedule-form")
 const scheduleList = document.querySelector(".schedule-lists")
 
-const formName =  document.querySelector("#name")
 
+const formName =  document.querySelector("#name")
+const userForm = document.getElementById("user-form")
+
+// var current_user = {id: , name: nil}
+var current_user = {"id": null, "name":null}
 
 
 function addMemberFeature(){
@@ -70,40 +75,76 @@ function eventDelegation(){
 
 }
 
-function mountFormListener(){
+// function mountFormListenerUser(){
     
-    const userForm = document.getElementById("user-form")
-
-    userForm.addEventListener("submit",function(event){
-        event.preventDefault()
-        const postObj = getScheduleData(event)
-        debugger
+// }
+function handlePost(event){
+    event.preventDefault()
+    if (current_user["id"] != null)
+        {      
+            
+            // const postForm = document.getElementById("schedule-form")
+            // postForm.addEventListener("submit", function(event){
+               
         
-    })
+                
+                // grab the text from each field
+                const postObj = getScheduleData(event)
+            
+                
+                if (postForm.dataset.action === "create")
+                {
+                    API.post(postObj)
+                }
+                else if (postForm.dataset.action === "update"){
+                    const Id = event.target.dataset.id
+                    API.patch(postObj, Id)
+                }
+            
+        }
 
+}
 
+function mountFormListener(){
+ 
     const postForm = document.getElementById("schedule-form")
+    postForm.addEventListener("submit", handlePost)
 
-  
-    postForm.addEventListener("submit", function(event){
+        
+        
+            
+    const userForm = document.getElementById("user-form")
+    userForm.addEventListener("submit",function(event){
+        
         event.preventDefault()
+        const postObj = getUserData(event)
         
-        // grab the text from each field
-        const postObj = getScheduleData(event)
-        
-        
-        if (postForm.dataset.action === "create")
-        {
-            
-            API.post(postObj)
-            
-        }
-        else if (postForm.dataset.action === "update"){
-            const Id = event.target.dataset.id
-            API.patch(postObj, Id)
-        }
+        fetch("http://localhost:3000/api/v1/users", {
+            method: 'POST', // *GET, POST, PUT, DELETE, etc.
+            headers: {
+            'Content-Type': 'application/json'
+            // 'Content-Type': 'application/x-www-form-urlencoded',
+            },
+            body: JSON.stringify(postObj) // body data type must match "Content-Type" header
+        })
+        .then(resp => resp.json())
+        .then((data) => {
 
+            //remember current_user
+            current_user = data
+            document.getElementById("userform1").style.display = "none";
+            // const htmlForm = htmlifyForm()
+
+        // renderForm(htmlForm)
+                
+        
+        })
     })
+}
+
+const renderForm = (form) =>{
+    const newForm = document.querySelector(".row")
+    newForm.innerHTML += form
 }
 
 
@@ -121,11 +162,36 @@ function getUserData(){
 }
 
 function clearForm (){
+    formName.value = ""
+    
+}
+
+function clearForm (){
     delete postForm.dataset.id
     postForm.dataset.action="create"
     formTitle.value = ""
     formContent.value = ""
 
     
+}
+
+const htmlifyForm = function(){
+    return(`
+        <div class="col s12 m6 l6">
+          <form id="schedule-form"  data-action="create">
+            <div class="input-field">
+              <input type="text" name="title" id="title">
+              <label for="title">Title</label>
+            </div>
+    
+            <label for="content">Content</label>
+            <div class="input-field">
+              <textarea name="content" id="content" cols="30" rows="50"></textarea>
+            </div>
+    
+            <input type="submit" value="Create Post" class="btn">
+          </form>
+        </div>
+    `)
 }
 

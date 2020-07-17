@@ -17,12 +17,12 @@
 
 <body>
     <h1>Welcome to Team Schedule</h1>
-    <div class="col s12 m6 l6 container">
+    <div class="col s12 m6 l6 container" id="userform1">
         <form id="user-form"  data-action="create">
             <label for="name"><b>Name</b></label>
-            <input type="text" placeholder="Enter Name" name="name" required>
+            <input type="text" placeholder="Enter Name" name="name" id="name" required>
         
-            <button type="submit">Login</button>
+            <button type="submit" onclick="CollapseForm()" class="btn">Login</button>
         </form>
         
         
